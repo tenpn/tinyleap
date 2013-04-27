@@ -7,11 +7,15 @@ public class BuildingFactory : MonoBehaviour
 {
     public T Create<T>() where T : Building
     {
-        var buildingType = typeof(T);
+        return Create(typeof(T)) as T;
+    }
+
+    public Building Create(Type buildingType)
+    {
         Assert.True(m_spawnPools.ContainsKey(buildingType),
                     "building " + buildingType + " not found in factory");
         var pool = m_spawnPools[buildingType];
-        return pool.Spawn() as T;
+        return pool.Spawn();
     }
 
     public void Destroy(Building b)
