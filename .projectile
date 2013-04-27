@@ -1,0 +1,19 @@
+
+Library/*
+Temp/*
+*.obj
+*.pidb
+*.suo
+*.userprefs
+*.csproj
+*.sln
+*.unityproj
+*.pidb
+*.userprefs
+
+# emacs temp files
+*~
+*#
+*#.meta
+
+*.meta
