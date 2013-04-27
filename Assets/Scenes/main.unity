@@ -161,8 +161,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 139962058}
+  - 114: {fileID: 139962059}
   m_Layer: 0
-  m_Name: BuildingsPrototypes
+  m_Name: BuildingPrototypes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,7 +180,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1951145869}
-  m_Father: {fileID: 1559350054}
+  m_Father: {fileID: 496303560}
+--- !u!114 &139962059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 139962057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c07a9a5f1cb0460a9c5ecafe1df9cd2, type: 3}
+  m_Name: 
 --- !u!1 &259224421
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,6 +244,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 139962058}
   - {fileID: 1968271556}
   m_Father: {fileID: 0}
 --- !u!1 &1039994949
@@ -352,8 +364,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 139962058}
+  m_Children: []
   m_Father: {fileID: 259224422}
 --- !u!114 &1559350055
 MonoBehaviour:
