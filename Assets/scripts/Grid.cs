@@ -153,9 +153,14 @@ public class Grid : MonoBehaviour
 
     private T MakeNewBuilding<T>() where T : Building
     {
-        var newBuilding = m_buildingFactory.Create<T>();
+        return MakeNewBuilding(typeof(T)) as T;
+    }
+
+    private Building MakeNewBuilding(Type newBuildingType)
+    {
+        var newBuilding = m_buildingFactory.Create(newBuildingType);
         newBuilding.transform.parent = transform;
-        return newBuilding as T;
+        return newBuilding;
     }
 
 }
