@@ -22,6 +22,11 @@ public class Grid : MonoBehaviour
     public int ColumnCount { get { return m_columnCount; } }
     public int FlanLaneCount { get { return m_flanLaneCount; } }
 
+    public void Tick()
+    {
+        
+    }
+
     public static Grid Instance
     {
         get
