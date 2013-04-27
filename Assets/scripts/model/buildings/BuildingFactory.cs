@@ -16,6 +16,11 @@ public class BuildingFactory : MonoBehaviour
 
     public void Destroy(Building b)
     {
+        if (b == null)
+        {
+            return;
+        }
+
         var buildingType = b.GetType();
         Assert.True(m_spawnPools.ContainsKey(buildingType),
                     "building " + buildingType + " not found in factory");
