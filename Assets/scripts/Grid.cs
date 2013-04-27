@@ -28,6 +28,13 @@ public class Grid : MonoBehaviour
     [SerializeField] private int m_flanLaneCount; 
 
     private BuildingFactory m_buildingFactory = null;
+    
+    private struct Cell
+    {
+        public Building Building;
+    }
+
+    private Cell[,] m_grid = null;
 
     //////////////////////////////////////////////////
 
@@ -42,6 +49,11 @@ public class Grid : MonoBehaviour
         Assert.IsNotNull(m_buildingFactory, "could not find building factory");
     }
 
+    private void Start()
+    {
+        CreateGrid();
+    }
+
     private void OnDestroy()
     {
         Assert.True(s_singleton == this,
@@ -50,10 +62,30 @@ public class Grid : MonoBehaviour
         s_singleton = null;
     }
 
+    private void CreateGrid()
+    {
+        m_grid = new Cell[m_columnCount, m_flanLaneCount];
+
+        for(int flanLaneIndex = 0; flanLaneIndex < m_flanLaneCount; ++flanLaneIndex)
+        {
+            m_grid[0,flanLaneIndex].Building = MakeNewBuilding<FlanHouse>();
+        }
+    }
 
     private void Update()
     {
-        
+        if (m_grid.GetLength(0) != m_columnCount
+            || m_grid.GetLength(1) != m_flanLaneCount)
+        {
+            CreateGrid();
+        }
+    }
+
+    private T MakeNewBuilding<T>() where T : Building
+    {
+        var newBuilding = m_buildingFactory.GetPool<FlanHouse>().Spawn();
+        newBuilding.transform.parent = transform;
+        return newBuilding as T;
     }
 
 }
