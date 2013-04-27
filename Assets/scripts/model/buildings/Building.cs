@@ -2,7 +2,13 @@
 using UnityEngine;
 using System;
 
-public class Building : MonoBehaviour
+public abstract class Building : MonoBehaviour
 {
+    public virtual void Tick(int colIndex, int flanLaneIndex)
+    {
+    }
     
+    //////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////
 }

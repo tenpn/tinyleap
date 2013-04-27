@@ -7,6 +7,7 @@ public class Grid : MonoBehaviour
     public struct Cell
     {
         public Building Building;
+        public Flan Flan;
     }
     
     // read-only grid accessor
@@ -24,7 +25,21 @@ public class Grid : MonoBehaviour
 
     public void Tick()
     {
-        
+        for(int flanLaneIndex = 0; flanLaneIndex < m_grid.GetLength(1); ++flanLaneIndex)
+        {
+            for(int colIndex = 0; colIndex < m_grid.GetLength(0); ++colIndex)
+            {
+                TickCell(colIndex, flanLaneIndex);               
+            }
+        }
+    }
+
+    public Flan CreateFlan(int colIndex, int flanLaneIndex)
+    {
+        var newFlan = MakeNewBuilding<Flan>();
+        Assert.IsNotNull(newFlan, "always expected a flan");
+        m_grid[colIndex, flanLaneIndex].Flan = newFlan;
+        return newFlan;
     }
 
     public static Grid Instance
@@ -85,11 +100,8 @@ public class Grid : MonoBehaviour
                 for(int colIndex = 0; colIndex < m_grid.GetLength(0); ++colIndex)
                 {
                     var cell = m_grid[colIndex, flanLaneIndex];
-                    if (cell.Building != null)
-                    {
-                        m_buildingFactory.Destroy(cell.Building);
-                        cell.Building = null;
-                    }
+                    m_buildingFactory.Destroy(cell.Building);
+                    m_buildingFactory.Destroy(cell.Flan);
                 }
             }
         }
@@ -100,6 +112,16 @@ public class Grid : MonoBehaviour
         {
             m_grid[0,flanLaneIndex].Building = MakeNewBuilding<FlanHouse>();
         }
+    }
+
+    private void TickCell(int colIndex, int flanLaneIndex)
+    {
+        var cell = m_grid[colIndex, flanLaneIndex];
+
+        if (cell.Building != null)
+        {
+            cell.Building.Tick(colIndex, flanLaneIndex);
+        }       
     }
 
     private void Update()
