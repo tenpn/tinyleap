@@ -1,6 +1,8 @@
 
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Grid : MonoBehaviour
 {    
@@ -73,6 +75,10 @@ public class Grid : MonoBehaviour
     [RangeAttribute(1, 10)]
     [SerializeField] private int m_flanLaneCount; 
 
+    [RangeAttribute(0f, 1f)]
+    [SerializeField] private float m_resourceChance = 0.4f;
+
+
     private BuildingFactory m_buildingFactory = null;
     
     private Cell[,] m_grid = null;
@@ -121,9 +127,27 @@ public class Grid : MonoBehaviour
 
         m_grid = new Cell[m_columnCount, m_flanLaneCount];
 
+        var allResources = m_buildingFactory.AllBuildingTypes
+            .Where(bType => typeof(Resource).IsAssignableFrom(bType));
+
+        var resourcesRng = new System.Random();
+        Func<Building> newRandomResource = () 
+            => MakeNewBuilding(allResources.ElementAt(
+                                   resourcesRng.Next(allResources.Count())));
+
         for(int flanLaneIndex = 0; flanLaneIndex < m_flanLaneCount; ++flanLaneIndex)
         {
             m_grid[0,flanLaneIndex].Building = MakeNewBuilding<FlanHouse>();
+
+            for(int columnIndex = 1; columnIndex < m_columnCount; ++columnIndex)
+            {
+                if ((float)resourcesRng.NextDouble() >= m_resourceChance)
+                {
+                    continue;
+                }
+
+                m_grid[columnIndex, flanLaneIndex].Building = newRandomResource();
+            }
         }
     }
 
