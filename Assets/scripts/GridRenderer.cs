@@ -74,7 +74,7 @@ public class GridRenderer : MonoBehaviour
                 if (cell.Building != null)
                 {
                     var buildingPixelColumn = leftScreenColumn 
-                        + columnPixelSeperation * (float)colIndex;
+                        + columnPixelSeperation * ((float)colIndex + 0.5f);
                     var buildingWorldPos 
                         = screenToWorld(buildingPixelColumn, buildLanePixelRow);
 
