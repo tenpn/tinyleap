@@ -5,14 +5,12 @@ using System.Collections.Generic;
 
 public class BuildingFactory : MonoBehaviour
 {
-    public SpawnPool<Building> this[Type buildingType]
+    public SpawnPool<Building> GetPool<T>() where T : Building
     {
-        get
-        {
-            Assert.True(m_spawnPools.ContainsKey(buildingType),
-                        "building " + buildingType + " not found in factory");
-            return m_spawnPools[buildingType];
-        }
+        var buildingType = typeof(T);
+        Assert.True(m_spawnPools.ContainsKey(buildingType),
+                    "building " + buildingType + " not found in factory");
+        return m_spawnPools[buildingType];
     }
 
     //////////////////////////////////////////////////
