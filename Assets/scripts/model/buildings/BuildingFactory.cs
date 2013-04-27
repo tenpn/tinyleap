@@ -13,6 +13,14 @@ public class BuildingFactory : MonoBehaviour
         return m_spawnPools[buildingType];
     }
 
+    public void Despawn(Building b)
+    {
+        var buildingType = b.GetType();
+        Assert.True(m_spawnPools.ContainsKey(buildingType),
+                    "building " + buildingType + " not found in factory");
+        m_spawnPools[buildingType].Despawn(b);
+    }
+
     //////////////////////////////////////////////////
 
     private Dictionary<Type, SpawnPool<Building>> m_spawnPools
