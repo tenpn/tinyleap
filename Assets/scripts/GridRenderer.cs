@@ -36,8 +36,9 @@ public class GridRenderer : MonoBehaviour
         float leftScreenColumn = 0.5f * (screenWidth - gridScreenWidth);
         float rightScreenColumn = leftScreenColumn + gridScreenWidth;
 
-        float bottomScreenRow = 0.5f * (screenHeight - gridScreenHeight);
-        float flanLanePixelSeperation = gridScreenHeight / (1.0f + (float)grid.FlanLaneCount);
+        float topScreenRow = 0.5f * (screenHeight - gridScreenHeight) + gridScreenHeight;
+        float lanePixelSeperation = gridScreenHeight 
+            / (2.0f + 2.0f*(float)grid.FlanLaneCount);
 
         Func<float, float, Vector3> screenToWorld = (screenX, screenY) 
             => mainCam.ScreenToWorldPoint(
@@ -45,11 +46,21 @@ public class GridRenderer : MonoBehaviour
 
         for(int flanLaneIndex = 0; flanLaneIndex < grid.FlanLaneCount; ++flanLaneIndex)
         {
-            // draw flan lane
-            float flanLaneRow = bottomScreenRow 
-                + flanLanePixelSeperation * (float)flanLaneIndex;
-            var flanLaneWorldStart = screenToWorld(leftScreenColumn, flanLaneRow);
-            var flanLaneWorldEnd = screenToWorld(rightScreenColumn, flanLaneRow);
+            // build lane -> flan lane. ends with one last resource lane.
+            // draw flan lane. 0 is at the top of the screen.
+
+            float buildLanePixelRow = topScreenRow
+                - lanePixelSeperation * (1.0f + 2.0f * (float)flanLaneIndex);
+
+            var buildLaneWorldStart = screenToWorld(leftScreenColumn, buildLanePixelRow);
+            var buildLaneWorldEnd = screenToWorld(rightScreenColumn, buildLanePixelRow);
+
+            Debug.DrawLine(buildLaneWorldStart, buildLaneWorldEnd, Color.blue);
+
+            float flanLanePixelRow = buildLanePixelRow - lanePixelSeperation;
+
+            var flanLaneWorldStart = screenToWorld(leftScreenColumn, flanLanePixelRow);
+            var flanLaneWorldEnd = screenToWorld(rightScreenColumn, flanLanePixelRow);
 
             Debug.DrawLine(flanLaneWorldStart, flanLaneWorldEnd, Color.green);
 
