@@ -4,6 +4,20 @@ using System;
 
 public class Grid : MonoBehaviour
 {    
+    public struct Cell
+    {
+        public Building Building;
+    }
+    
+    // read-only grid accessor
+    public Cell this[int column, int flanLane]
+    {
+        get
+        {
+            return m_grid[column, flanLane];
+        }
+    }
+
 
     public int ColumnCount { get { return m_columnCount; } }
     public int FlanLaneCount { get { return m_flanLaneCount; } }
@@ -29,11 +43,6 @@ public class Grid : MonoBehaviour
 
     private BuildingFactory m_buildingFactory = null;
     
-    private struct Cell
-    {
-        public Building Building;
-    }
-
     private Cell[,] m_grid = null;
 
     //////////////////////////////////////////////////
