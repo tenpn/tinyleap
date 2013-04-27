@@ -27,6 +27,8 @@ public class Grid : MonoBehaviour
     [RangeAttribute(1, 10)]
     [SerializeField] private int m_flanLaneCount; 
 
+    private BuildingFactory m_buildingFactory = null;
+
     //////////////////////////////////////////////////
 
     private void Awake() 
@@ -35,6 +37,9 @@ public class Grid : MonoBehaviour
                       "already singleton of type " + typeof(Grid) + ", is obj " 
                       + (s_singleton == null ? "NULL" : s_singleton.gameObject.name));
         s_singleton = this as Grid;
+
+        m_buildingFactory = FindObjectOfType(typeof(BuildingFactory)) as BuildingFactory;
+        Assert.IsNotNull(m_buildingFactory, "could not find building factory");
     }
 
     private void OnDestroy()
@@ -45,5 +50,10 @@ public class Grid : MonoBehaviour
         s_singleton = null;
     }
 
+
+    private void Update()
+    {
+        
+    }
 
 }
