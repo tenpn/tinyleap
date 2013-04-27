@@ -8,7 +8,6 @@ public class FlanHouse : Building
     {
         if (m_myFlan == null)
         {
-            Debug.Log("making flan!");
             m_myFlan = Grid.Instance.CreateFlan(colIndex, flanLaneIndex);
         }
     }
