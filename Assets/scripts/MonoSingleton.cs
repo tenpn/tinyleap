@@ -18,7 +18,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
     {
         Assert.IsNull(s_singleton,
                       "already singleton of type " + typeof(T) + ", is obj " 
-                      + s_singleton.gameObject);
+                      + (s_singleton == null ? "NULL" : s_singleton.gameObject.name));
         s_singleton = this as T;
     }
 
