@@ -1,5 +1,6 @@
 
 rm -rf ../tinyleap-ghpages/*
+mv webplayer/webplayer.html webplayer/index.html
 cp webplayer/* ../tinyleap-ghpages/.
 
 cd ../tinyleap-ghpages
