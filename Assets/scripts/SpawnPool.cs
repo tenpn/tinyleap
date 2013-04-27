@@ -48,6 +48,7 @@ public class SpawnPool<T> where T : MonoBehaviour
         Assert.True(m_instances.Contains(instance),
                     "instance wasn't spawned by us");
         instance.gameObject.SetActive(false);
+        m_instances.Remove(instance);
         m_pool.Enqueue(instance);
         instance.transform.parent = m_poolHolder;
     }
