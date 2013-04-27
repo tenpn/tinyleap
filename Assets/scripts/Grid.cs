@@ -122,6 +122,11 @@ public class Grid : MonoBehaviour
         {
             cell.Building.Tick(colIndex, flanLaneIndex);
         }       
+
+        if (cell.Flan != null)
+        {
+            cell.Flan.Tick(colIndex, flanLaneIndex);
+        }
     }
 
     private void Update()
