@@ -22,15 +22,19 @@ public class BuildingFactory : MonoBehaviour
 
     //////////////////////////////////////////////////
 
-    private void Start()
+    private void Awake()
     {
+        var spawnBuildingStore = new GameObject("pool").transform;
+        spawnBuildingStore.parent = transform;
+
         var allBuildings = GetComponentsInChildren<Building>();
 
         foreach(var building in allBuildings)
         {
             Assert.True(m_spawnPools.ContainsKey(building.GetType()) == false,
                         "building " + building.gameObject + " found twice in prototype list");
-            m_spawnPools[building.GetType()] = new SpawnPool<Building>(building.gameObject);
+            m_spawnPools[building.GetType()] 
+                = new SpawnPool<Building>(building.gameObject, spawnBuildingStore);
         }
     }
 

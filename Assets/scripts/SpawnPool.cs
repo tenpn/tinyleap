@@ -6,11 +6,12 @@ using System.Linq;
 
 public class SpawnPool<T> where T : MonoBehaviour
 {
-    public SpawnPool(GameObject prototype)
+    public SpawnPool(GameObject prototype, Transform poolHolder)
     {
         Assert.IsNotNull(prototype,
                          "no prototype for spawn pool");
         m_prototype = prototype;
+        m_poolHolder = poolHolder;
     }
 
     public T Spawn()
@@ -21,6 +22,7 @@ public class SpawnPool<T> where T : MonoBehaviour
         {
             newT = m_pool.Dequeue();
             newT.gameObject.SetActive(true);
+            newT.transform.parent = null;
         }
         else
         {
@@ -47,6 +49,7 @@ public class SpawnPool<T> where T : MonoBehaviour
                     "instance wasn't spawned by us");
         instance.gameObject.SetActive(false);
         m_pool.Enqueue(instance);
+        instance.transform.parent = m_poolHolder;
     }
 
     //////////////////////////////////////////////////
@@ -54,6 +57,7 @@ public class SpawnPool<T> where T : MonoBehaviour
     private HashSet<T> m_instances = new HashSet<T>();
     private Queue<T> m_pool = new Queue<T>();
     private GameObject m_prototype;
+    private Transform m_poolHolder;
 
     //////////////////////////////////////////////////
 }
