@@ -82,7 +82,7 @@ public class Grid : MonoBehaviour
                     var cell = m_grid[colIndex, flanLaneIndex];
                     if (cell.Building != null)
                     {
-                        m_buildingFactory.Despawn(cell.Building);
+                        m_buildingFactory.Destroy(cell.Building);
                         cell.Building = null;
                     }
                 }
@@ -108,7 +108,7 @@ public class Grid : MonoBehaviour
 
     private T MakeNewBuilding<T>() where T : Building
     {
-        var newBuilding = m_buildingFactory.GetPool<FlanHouse>().Spawn();
+        var newBuilding = m_buildingFactory.Create<FlanHouse>();
         newBuilding.transform.parent = transform;
         return newBuilding as T;
     }
