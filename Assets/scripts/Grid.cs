@@ -113,7 +113,7 @@ public class Grid : MonoBehaviour
 
     private T MakeNewBuilding<T>() where T : Building
     {
-        var newBuilding = m_buildingFactory.Create<FlanHouse>();
+        var newBuilding = m_buildingFactory.Create<T>();
         newBuilding.transform.parent = transform;
         return newBuilding as T;
     }
