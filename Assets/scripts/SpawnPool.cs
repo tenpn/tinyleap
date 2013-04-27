@@ -39,6 +39,7 @@ public class SpawnPool<T> where T : MonoBehaviour
                     "newly-spawned " + typeof(T) 
                     + " should not already be in instance list");
         m_instances.Add(newT);
+        newT.SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 
         return newT;
     }
@@ -47,6 +48,7 @@ public class SpawnPool<T> where T : MonoBehaviour
     {
         Assert.True(m_instances.Contains(instance),
                     "instance wasn't spawned by us");
+        instance.SendMessage("OnDespawn", SendMessageOptions.DontRequireReceiver);
         instance.gameObject.SetActive(false);
         m_instances.Remove(instance);
         m_pool.Enqueue(instance);
