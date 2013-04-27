@@ -27,6 +27,8 @@ public class BuildingFactory : MonoBehaviour
         m_spawnPools[buildingType].Despawn(b);
     }
 
+    public IEnumerable<Type> AllBuildingTypes { get { return m_spawnPools.Keys; } }
+
     //////////////////////////////////////////////////
 
     private Dictionary<Type, SpawnPool<Building>> m_spawnPools
