@@ -162,6 +162,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1968271556}
   - 114: {fileID: 1968271557}
+  - 114: {fileID: 1968271558}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -190,5 +191,17 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a96e4929c42424e989b74201da170a6b, type: 3}
   m_Name: 
-  m_columns: 10
-  m_flanLanes: 3
+  m_columnCount: 10
+  m_flanLaneCount: 3
+--- !u!114 &1968271558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1968271555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d8405ca0d8e4f0ca99f102cba6d47a, type: 3}
+  m_Name: 
+  m_gridToScreenWidth: .899999976
+  m_gridToScreenHeight: .899999976
