@@ -35,14 +35,16 @@ public class GridRenderer : MonoBehaviour
 
         float leftScreenColumn = 0.5f * (screenWidth - gridScreenWidth);
         float rightScreenColumn = leftScreenColumn + gridScreenWidth;
+        float columnPixelSeperation = gridScreenWidth / (float)grid.ColumnCount;
 
         float topScreenRow = 0.5f * (screenHeight - gridScreenHeight) + gridScreenHeight;
         float lanePixelSeperation = gridScreenHeight 
             / (2.0f + 2.0f*(float)grid.FlanLaneCount);
 
+        float renderDepth = 0.5f * (mainCam.nearClipPlane + mainCam.farClipPlane);
         Func<float, float, Vector3> screenToWorld = (screenX, screenY) 
             => mainCam.ScreenToWorldPoint(
-                new Vector3(screenX, screenY, mainCam.nearClipPlane));
+                new Vector3(screenX, screenY, renderDepth));
 
         for(int flanLaneIndex = 0; flanLaneIndex < grid.FlanLaneCount; ++flanLaneIndex)
         {
@@ -64,10 +66,20 @@ public class GridRenderer : MonoBehaviour
 
             Debug.DrawLine(flanLaneWorldStart, flanLaneWorldEnd, Color.green);
 
-            // draw buildings
+            // draw buildings, etc
             for(int colIndex = 0; colIndex < grid.ColumnCount; ++colIndex)
             {
+                var cell = grid[colIndex, flanLaneIndex];
                 
+                if (cell.Building != null)
+                {
+                    var buildingPixelColumn = leftScreenColumn 
+                        + columnPixelSeperation * (float)colIndex;
+                    var buildingWorldPos 
+                        = screenToWorld(buildingPixelColumn, buildLanePixelRow);
+
+                    cell.Building.transform.position = buildingWorldPos;
+                }
             }
         }
     }
