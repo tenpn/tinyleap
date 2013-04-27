@@ -25,6 +25,8 @@ public class Grid : MonoBehaviour
 
     public void Tick()
     {
+        m_nextGrid = new Cell[ColumnCount, FlanLaneCount];
+
         for(int flanLaneIndex = 0; flanLaneIndex < m_grid.GetLength(1); ++flanLaneIndex)
         {
             for(int colIndex = 0; colIndex < m_grid.GetLength(0); ++colIndex)
@@ -32,14 +34,24 @@ public class Grid : MonoBehaviour
                 TickCell(colIndex, flanLaneIndex);               
             }
         }
+
+        m_grid = m_nextGrid;
+        m_nextGrid = null;
     }
 
     public Flan CreateFlan(int colIndex, int flanLaneIndex)
     {
         var newFlan = MakeNewBuilding<Flan>();
         Assert.IsNotNull(newFlan, "always expected a flan");
-        m_grid[colIndex, flanLaneIndex].Flan = newFlan;
+        m_nextGrid[colIndex, flanLaneIndex].Flan = newFlan;
         return newFlan;
+    }
+
+    public void MoveFlan(int flanLaneIndex, int prevColIndex, int newColIndex)
+    {
+        var flan = m_grid[prevColIndex, flanLaneIndex].Flan;
+        Assert.IsNotNull(flan, "no flan found at " + prevColIndex + "," + flanLaneIndex);
+        m_nextGrid[newColIndex, flanLaneIndex].Flan = flan;
     }
 
     public static Grid Instance
@@ -64,6 +76,7 @@ public class Grid : MonoBehaviour
     private BuildingFactory m_buildingFactory = null;
     
     private Cell[,] m_grid = null;
+    private Cell[,] m_nextGrid = null;
 
     //////////////////////////////////////////////////
 
