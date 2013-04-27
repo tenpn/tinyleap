@@ -73,6 +73,22 @@ public class Grid : MonoBehaviour
 
     private void CreateGrid()
     {
+        if (m_grid != null)
+        {
+            for(int flanLaneIndex = 0; flanLaneIndex < m_grid.GetLength(1); ++flanLaneIndex)
+            {
+                for(int colIndex = 0; colIndex < m_grid.GetLength(0); ++colIndex)
+                {
+                    var cell = m_grid[colIndex, flanLaneIndex];
+                    if (cell.Building != null)
+                    {
+                        m_buildingFactory.Despawn(cell.Building);
+                        cell.Building = null;
+                    }
+                }
+            }
+        }
+
         m_grid = new Cell[m_columnCount, m_flanLaneCount];
 
         for(int flanLaneIndex = 0; flanLaneIndex < m_flanLaneCount; ++flanLaneIndex)
