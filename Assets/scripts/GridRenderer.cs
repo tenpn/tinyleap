@@ -10,6 +10,8 @@ public class GridRenderer : MonoBehaviour
     [SerializeField] private float m_gridToScreenWidth = 0.9f;
     [RangeAttribute(0.01f, 1.0f)]
     [SerializeField] private float m_gridToScreenHeight = 0.9f;
+    [RangeAttribute(0.01f, 5.0f)]
+    [SerializeField] private float m_buildingScaleRatio = 0.8f;
 
     //////////////////////////////////////////////////
 
@@ -41,7 +43,7 @@ public class GridRenderer : MonoBehaviour
         float lanePixelSeperation = gridScreenHeight 
             / (2.0f + 2.0f*(float)grid.FlanLaneCount);
 
-        float renderDepth = 0.5f * (mainCam.nearClipPlane + mainCam.farClipPlane);
+        float renderDepth = mainCam.nearClipPlane + 1f;
         Func<float, float, Vector3> screenToWorld = (screenX, screenY) 
             => mainCam.ScreenToWorldPoint(
                 new Vector3(screenX, screenY, renderDepth));
@@ -79,6 +81,8 @@ public class GridRenderer : MonoBehaviour
                         = screenToWorld(buildingPixelColumn, buildLanePixelRow);
 
                     cell.Building.transform.position = buildingWorldPos;
+                    cell.Building.transform.localScale 
+                        = new Vector3(m_buildingScaleRatio, m_buildingScaleRatio, 1.0f);
                 }
             }
         }
