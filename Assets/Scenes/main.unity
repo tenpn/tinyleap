@@ -730,3 +730,4 @@ MonoBehaviour:
   m_Name: 
   m_columnCount: 10
   m_flanLaneCount: 3
+  m_resourceChance: .254999995
