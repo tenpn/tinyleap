@@ -94,7 +94,10 @@ public class GridRenderer : MonoBehaviour
                     cell.Flan.transform.position = flanWorldPos;
                     cell.Flan.transform.localScale 
                         = new Vector3(m_buildingScaleRatio, m_buildingScaleRatio, 1.0f);
-                    
+
+                    float facingDir = cell.Flan.IsGoingRight ? 0.0f : 180.0f;
+                    cell.Flan.transform.rotation 
+                        = Quaternion.Euler(0.0f, facingDir, 0.0f);
                 }
             }
         }
