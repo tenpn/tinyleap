@@ -73,16 +73,28 @@ public class GridRenderer : MonoBehaviour
             {
                 var cell = grid[colIndex, flanLaneIndex];
                 
+                var cellPixelColumn = leftScreenColumn 
+                    + columnPixelSeperation * ((float)colIndex + 0.5f);
+
                 if (cell.Building != null)
                 {
-                    var buildingPixelColumn = leftScreenColumn 
-                        + columnPixelSeperation * ((float)colIndex + 0.5f);
                     var buildingWorldPos 
-                        = screenToWorld(buildingPixelColumn, buildLanePixelRow);
+                        = screenToWorld(cellPixelColumn, buildLanePixelRow);
 
                     cell.Building.transform.position = buildingWorldPos;
                     cell.Building.transform.localScale 
                         = new Vector3(m_buildingScaleRatio, m_buildingScaleRatio, 1.0f);
+                }
+                
+                if (cell.Flan != null)
+                {
+                    var flanWorldPos
+                        = screenToWorld(cellPixelColumn, flanLanePixelRow);
+
+                    cell.Flan.transform.position = flanWorldPos;
+                    cell.Flan.transform.localScale 
+                        = new Vector3(m_buildingScaleRatio, m_buildingScaleRatio, 1.0f);
+                    
                 }
             }
         }
