@@ -81,9 +81,16 @@ public class GridRenderer : MonoBehaviour
                     var buildingWorldPos 
                         = screenToWorld(cellPixelColumn, buildLanePixelRow);
 
+                    float resourceScalar = cell.Building is Resource 
+                        ? Mathf.Lerp(0.35f, 1.0f, 
+                                     (cell.Building as Resource).PercentageRemaining)
+                        : 1.0f;
+
+                    float buildingScalar = m_buildingScaleRatio * resourceScalar;
+
                     cell.Building.transform.position = buildingWorldPos;
                     cell.Building.transform.localScale 
-                        = new Vector3(m_buildingScaleRatio, m_buildingScaleRatio, 1.0f);
+                        = new Vector3(buildingScalar, buildingScalar, 1.0f);
                 }
                 
                 if (cell.Flan != null)
