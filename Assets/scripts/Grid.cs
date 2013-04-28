@@ -66,6 +66,15 @@ public class Grid : MonoBehaviour
         m_nextGrid[newColIndex, flanLaneIndex].Flan = flan;
     }
 
+    public IEnumerable<Type> ResourceTypes
+    {
+        get
+        {
+            return m_buildingFactory.AllTypes
+                .Where(bType => typeof(Resource).IsAssignableFrom(bType));
+        }
+    }
+
     public static Grid Instance
     {
         get
@@ -137,8 +146,7 @@ public class Grid : MonoBehaviour
 
         m_grid = new Cell[m_columnCount, m_flanLaneCount];
 
-        var allResources = m_buildingFactory.AllTypes
-            .Where(bType => typeof(Resource).IsAssignableFrom(bType));
+        var allResources = ResourceTypes;
 
         var resourcesRng = new System.Random();
         Func<Building> newRandomResource = () 
