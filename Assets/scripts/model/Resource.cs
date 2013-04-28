@@ -10,7 +10,7 @@ public abstract class Resource : Building
 
     //////////////////////////////////////////////////
 
-    [SerializeField] private int m_count;
+    private int m_count;
     [SerializeField] private int m_capacity;
 
     //////////////////////////////////////////////////
