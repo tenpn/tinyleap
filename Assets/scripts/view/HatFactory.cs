@@ -15,7 +15,9 @@ public class HatFactory : MonoBehaviour
             return null;
         }
 
-        return m_spawnPools[resourceName].Spawn();
+        var newHat = m_spawnPools[resourceName].Spawn();
+        newHat.transform.parent = m_activeHats;
+        return newHat;
     }
 
     public void Reset()
@@ -31,12 +33,17 @@ public class HatFactory : MonoBehaviour
     private Dictionary<string, SpawnPool<Transform>> m_spawnPools
         = new Dictionary<string, SpawnPool<Transform>>();
 
+    private Transform m_activeHats = null;
+
     //////////////////////////////////////////////////
 
     private void Start()
     {
         var spawnStore = new GameObject("pool").transform;
         spawnStore.parent = transform;
+
+        m_activeHats = new GameObject("active hats").transform;
+        m_activeHats.parent = transform;
 
         var allResources = Grid.Instance.ResourceTypes
             .Select(res => res.ToString())
