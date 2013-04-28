@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class SpawnPool<T> where T : MonoBehaviour
+public class SpawnPool<T> where T : Component
 {
     public SpawnPool(GameObject prototype, Transform poolHolder)
     {
