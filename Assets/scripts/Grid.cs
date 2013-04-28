@@ -137,7 +137,7 @@ public class Grid : MonoBehaviour
 
         m_grid = new Cell[m_columnCount, m_flanLaneCount];
 
-        var allResources = m_buildingFactory.AllBuildingTypes
+        var allResources = m_buildingFactory.AllTypes
             .Where(bType => typeof(Resource).IsAssignableFrom(bType));
 
         var resourcesRng = new System.Random();
