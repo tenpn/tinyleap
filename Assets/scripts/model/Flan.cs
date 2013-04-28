@@ -27,6 +27,8 @@ public class Flan : Building
     }   
 
     public bool IsGoingRight { get { return m_direction > 0; } }
+    public Type ResourceHeld { get { return m_resourceHeld; } }
+    public bool IsHoldingResource { get { return ResourceHeld != null; } }
 
     //////////////////////////////////////////////////
 
