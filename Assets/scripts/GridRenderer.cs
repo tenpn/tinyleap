@@ -13,6 +13,7 @@ public class GridRenderer : MonoBehaviour
     [RangeAttribute(0.01f, 5.0f)]
     [SerializeField] private float m_buildingScaleRatio = 0.8f;
 
+    private PathFactory m_pathFactory = null;
     private HatFactory m_hatFactory = null;
 
     //////////////////////////////////////////////////
@@ -21,6 +22,9 @@ public class GridRenderer : MonoBehaviour
     {
         m_hatFactory = GetComponentInChildren<HatFactory>();
         Assert.IsNotNull(m_hatFactory, "no hat factory found");
+
+        m_pathFactory = GetComponentInChildren<PathFactory>();
+        Assert.IsNotNull(m_pathFactory, "no path factory found");
     }
 
     private void Update()
@@ -57,6 +61,7 @@ public class GridRenderer : MonoBehaviour
                 new Vector3(screenX, screenY, renderDepth));
 
         m_hatFactory.Reset();
+        m_pathFactory.Reset();
 
         for(int flanLaneIndex = 0; flanLaneIndex < grid.FlanLaneCount; ++flanLaneIndex)
         {
@@ -85,6 +90,12 @@ public class GridRenderer : MonoBehaviour
                 
                 var cellPixelColumn = leftScreenColumn 
                     + columnPixelSeperation * ((float)colIndex + 0.5f);
+
+                var flanLane = m_pathFactory.CreateFlanPathTile();
+                flanLane.transform.position 
+                    = screenToWorld(cellPixelColumn, flanLanePixelRow);
+                flanLane.transform.localScale 
+                    = new Vector3(m_buildingScaleRatio, m_buildingScaleRatio, 1.0f);
 
                 if (cell.Building != null)
                 {
