@@ -55,6 +55,17 @@ public class SpawnPool<T> where T : Component
         instance.transform.parent = m_poolHolder;
     }
 
+    public void DespawnAll()
+    {
+        // because we can't shrink the m_instances list while we iterate it...
+        var allInstances = new List<T>(m_instances);
+
+        foreach(var instance in allInstances)
+        {
+            Despawn(instance);
+        }
+    }
+
     //////////////////////////////////////////////////
 
     private HashSet<T> m_instances = new HashSet<T>();
