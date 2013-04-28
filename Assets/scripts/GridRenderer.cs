@@ -13,7 +13,15 @@ public class GridRenderer : MonoBehaviour
     [RangeAttribute(0.01f, 5.0f)]
     [SerializeField] private float m_buildingScaleRatio = 0.8f;
 
+    private HatFactory m_hatFactory = null;
+
     //////////////////////////////////////////////////
+
+    private void Awake()
+    {
+        m_hatFactory = GetComponentInChildren<HatFactory>();
+        Assert.IsNotNull(m_hatFactory, "no hat factory found");
+    }
 
     private void Update()
     {
@@ -47,6 +55,8 @@ public class GridRenderer : MonoBehaviour
         Func<float, float, Vector3> screenToWorld = (screenX, screenY) 
             => mainCam.ScreenToWorldPoint(
                 new Vector3(screenX, screenY, renderDepth));
+
+        m_hatFactory.Reset();
 
         for(int flanLaneIndex = 0; flanLaneIndex < grid.FlanLaneCount; ++flanLaneIndex)
         {
@@ -105,6 +115,18 @@ public class GridRenderer : MonoBehaviour
                     float facingDir = cell.Flan.IsGoingRight ? 0.0f : 180.0f;
                     cell.Flan.transform.rotation 
                         = Quaternion.Euler(0.0f, facingDir, 0.0f);
+
+                    if (cell.Flan.IsHoldingResource)
+                    {
+                        var hat = m_hatFactory.GetHat(cell.Flan.ResourceHeld);
+
+                        if (hat != null)
+                        {
+                            hat.position = cell.Flan.transform.position;
+                            hat.localScale = cell.Flan.transform.localScale;
+                            hat.rotation = cell.Flan.transform.rotation;
+                        }
+                    }
                 }
             }
         }
