@@ -33,6 +33,15 @@ public class Grid : MonoBehaviour
         {
             for(int colIndex = 0; colIndex < m_grid.GetLength(0); ++colIndex)
             {
+                m_nextGrid[colIndex, flanLaneIndex] = m_grid[colIndex, flanLaneIndex];
+            }
+        }
+
+
+        for(int flanLaneIndex = 0; flanLaneIndex < m_grid.GetLength(1); ++flanLaneIndex)
+        {
+            for(int colIndex = 0; colIndex < m_grid.GetLength(0); ++colIndex)
+            {
                 TickCell(colIndex, flanLaneIndex);               
             }
         }
@@ -51,8 +60,9 @@ public class Grid : MonoBehaviour
 
     public void MoveFlan(int flanLaneIndex, int prevColIndex, int newColIndex)
     {
-        var flan = m_grid[prevColIndex, flanLaneIndex].Flan;
+        var flan = m_nextGrid[prevColIndex, flanLaneIndex].Flan;
         Assert.IsNotNull(flan, "no flan found at " + prevColIndex + "," + flanLaneIndex);
+        m_nextGrid[prevColIndex, flanLaneIndex].Flan = null;
         m_nextGrid[newColIndex, flanLaneIndex].Flan = flan;
     }
 
