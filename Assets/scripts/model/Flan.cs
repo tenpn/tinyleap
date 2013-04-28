@@ -19,6 +19,11 @@ public class Flan : Building
         }
 
         Grid.Instance.MoveFlan(flanLaneIndex, currentColIndex, newCol);
+        
+        if (m_resourceHeld == null)
+        {
+            m_resourceHeld = AttemptPickupResource(newCol, flanLaneIndex);
+        }
     }   
 
     public bool IsGoingRight { get { return m_direction > 0; } }
@@ -26,11 +31,34 @@ public class Flan : Building
     //////////////////////////////////////////////////
 
     private int m_direction = 1;
+    private Type m_resourceHeld = null;
 
     //////////////////////////////////////////////////
     
     private void OnSpawn()
     {
         m_direction = 1;
+    }
+
+    private Type AttemptPickupResource(int columnIndex, int flanLaneIndex)
+    {
+        var cell = Grid.Instance[columnIndex, flanLaneIndex];
+
+        if (cell.Building == null)
+        {
+            return null;
+        }
+
+        var resource = cell.Building as Resource;
+
+        if (resource == null || resource.Count == 0)
+        {
+            return null;
+        }
+
+        Debug.Log("picking up " + resource.GetType());
+        resource.OnPickup();
+        return resource.GetType();
+
     }
 }
