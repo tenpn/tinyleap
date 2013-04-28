@@ -56,7 +56,6 @@ public class Flan : Building
             return null;
         }
 
-        Debug.Log("picking up " + resource.GetType());
         resource.OnPickup();
         return resource.GetType();
 
